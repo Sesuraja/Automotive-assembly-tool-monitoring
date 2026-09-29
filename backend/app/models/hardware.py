@@ -3,6 +3,21 @@ from sqlalchemy import Column, String, Integer, Float, ForeignKey, DateTime, Boo
 from sqlalchemy.orm import relationship
 from app.database.base import Base, TimestampMixin, generate_uuid
 
+class BleGateway(Base, TimestampMixin):
+    __tablename__ = "ble_gateways"
+
+    id = Column(String(36), primary_key=True, default=generate_uuid)
+    company_id = Column(String(36), ForeignKey("companies.id", ondelete="CASCADE"), nullable=False, index=True)
+    gateway_id = Column(String(100), unique=True, index=True, nullable=False) # e.g. GW-001
+    name = Column(String(255), nullable=False)
+    ip_address = Column(String(100), default="192.168.1.100")
+    mac_address = Column(String(100), nullable=True)
+    protocol = Column(String(50), default="HTTP_REST") # HTTP_REST, MQTT, WEBSOCKET
+    firmware_version = Column(String(50), default="2.1.0")
+    status = Column(String(50), default="ONLINE") # ONLINE, OFFLINE, DEGRADED
+    last_heartbeat_utc = Column(DateTime(timezone=True), default=lambda: datetime.now(timezone.utc))
+    config_json = Column(JSON, default=dict)
+
 class Device(Base, TimestampMixin):
     __tablename__ = "devices"
 
@@ -13,10 +28,13 @@ class Device(Base, TimestampMixin):
     device_type = Column(String(100), default="BLE_VIBRATION_SENSOR") # BLE_VIBRATION_SENSOR, TACHOMETER, MULTI_SENSOR
     vendor = Column(String(100), default="Generic Industrial BLE")
     ble_address = Column(String(100), nullable=True)
+    gateway_id = Column(String(100), nullable=True) # Assigned Gateway ID e.g. GW-001
+    sampling_rate_hz = Column(Integer, default=3200)
+    rssi_dbm = Column(Integer, default=-65)
     firmware_version = Column(String(50), default="1.0.0")
     hardware_revision = Column(String(50), default="rev-A")
     battery_pct = Column(Integer, default=100)
-    connection_status = Column(String(50), default="DISCONNECTED") # DISCONNECTED, CONNECTING, CONNECTED, FAULT
+    connection_status = Column(String(50), default="CONNECTED") # DISCONNECTED, CONNECTING, CONNECTED, FAULT
     health_status = Column(String(50), default="HEALTHY") # HEALTHY, DEGRADED, FAULT, OFFLINE
     last_seen_utc = Column(DateTime(timezone=True), nullable=True)
     config_json = Column(JSON, default=dict)

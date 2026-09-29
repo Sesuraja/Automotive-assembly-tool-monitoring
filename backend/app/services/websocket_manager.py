@@ -52,4 +52,21 @@ class WebSocketManager:
         for ws in dead_supers:
             self._super_admin_connections.remove(ws)
 
+    async def broadcast(self, message: dict, company_id: Optional[str] = None):
+        if company_id:
+            await self.broadcast_to_company(company_id, message)
+        else:
+            payload = json.dumps(message, default=str)
+            for cid in list(self._active_connections.keys()):
+                for ws in list(self._active_connections.get(cid, [])):
+                    try:
+                        await ws.send_text(payload)
+                    except Exception:
+                        pass
+            for ws in list(self._super_admin_connections):
+                try:
+                    await ws.send_text(payload)
+                except Exception:
+                    pass
+
 ws_manager = WebSocketManager()

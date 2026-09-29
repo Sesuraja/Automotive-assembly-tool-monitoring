@@ -17,7 +17,7 @@ import {
   History,
   Terminal,
   Zap,
-  Info,
+  Radio,
 } from 'lucide-react';
 import { UserProfile } from '../types';
 
@@ -38,7 +38,7 @@ export type NavSection =
   | 'companies'
   | 'users_roles'
   | 'system_health'
-  | 'about';
+  | 'simulation';
 
 interface SidebarProps {
   currentSection: NavSection;
@@ -61,6 +61,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
       items: [
         { id: 'dashboard' as NavSection, label: 'Dashboard', icon: <LayoutDashboard className="w-4 h-4" /> },
         { id: 'live_monitor' as NavSection, label: 'Live Monitor', icon: <Activity className="w-4 h-4 text-blue-600" /> },
+        { id: 'simulation' as NavSection, label: 'Gateway & Simulation', icon: <Radio className="w-4 h-4 text-purple-600" /> },
       ],
     },
     {
@@ -99,7 +100,6 @@ export const Sidebar: React.FC<SidebarProps> = ({
         ...(isSuper ? [{ id: 'companies' as NavSection, label: 'Companies (Multi-Tenant)', icon: <Building2 className="w-4 h-4 text-blue-600" /> }] : []),
         { id: 'users_roles' as NavSection, label: 'Users & RBAC', icon: <Users className="w-4 h-4" /> },
         { id: 'system_health' as NavSection, label: 'System Health', icon: <HeartPulse className="w-4 h-4" /> },
-        { id: 'about' as NavSection, label: 'About & Credits', icon: <Info className="w-4 h-4 text-blue-600" /> },
       ],
     },
   ];

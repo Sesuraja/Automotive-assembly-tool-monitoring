@@ -4,7 +4,7 @@ from app.models.organization import OrganizationNode
 from app.models.rbac import Role, PermissionModel, RolePermission, UserRole, UserScope
 from app.models.user import User
 from app.models.operations import Site, Department, Project, Station, Asset
-from app.models.hardware import Device, Controller, DeviceMapping
+from app.models.hardware import Device, Controller, DeviceMapping, BleGateway
 from app.models.telemetry import Run, Telemetry, TelemetryWindow
 from app.models.ml import MLModel, ModelVersion, FeatureRecord, Inference
 from app.models.policy import DecisionPolicy, PolicyVersion, Decision

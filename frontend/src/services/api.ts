@@ -117,4 +117,11 @@ export const api = {
   getAcceptanceReport: (companyId?: string) => request<any>(`/reports/acceptance${companyId ? `?company_id=${companyId}` : ''}`),
   runAcceptanceSuite: () => request<any>('/acceptance/run', { method: 'POST' }),
   getSystemHealth: () => request<any>('/system-health'),
+
+  // Industrial BLE Gateways & Live Simulation
+  getGateways: (companyId?: string) => request<any[]>(`/gateways${companyId ? `?company_id=${companyId}` : ''}`),
+  createGateway: (data: any) => request<any>('/gateways', { method: 'POST', body: JSON.stringify(data) }),
+  deleteGateway: (id: string) => request<any>(`/gateways/${id}`, { method: 'DELETE' }),
+  addGatewaySensor: (data: any) => request<any>('/gateways/sensors', { method: 'POST', body: JSON.stringify(data) }),
+  ingestGatewayTelemetry: (packet: any) => request<any>('/gateways/telemetry', { method: 'POST', body: JSON.stringify(packet) }),
 };

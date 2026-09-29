@@ -25,6 +25,7 @@ from app.api.faults import router as faults_router
 from app.api.events import router as events_router
 from app.api.reports import router as reports_router
 from app.api.acceptance import router as acceptance_router
+from app.api.gateways import router as gateways_router
 from app.api.system_health import router as health_router
 from app.api.ws import router as ws_router
 
@@ -73,6 +74,7 @@ app.include_router(faults_router, prefix=v1)
 app.include_router(events_router, prefix=v1)
 app.include_router(reports_router, prefix=v1)
 app.include_router(acceptance_router, prefix=v1)
+app.include_router(gateways_router, prefix=v1)
 app.include_router(health_router, prefix=v1)
 app.include_router(ws_router) # /ws/live
 
